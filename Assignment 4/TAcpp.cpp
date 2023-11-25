@@ -36,7 +36,11 @@ void TA::addNewTA()
 	std::ofstream output("TAs.txt", std::ios::app);
 	std::cout << "Enter TA information" << std::endl;
 	
-	
+
+	working_hours = Working_Hours;
+	dept = department;
+	student_id = Student_Id;
+	status = Status;
 	do {
 		while (true) {
 			try
@@ -100,7 +104,6 @@ void TA::addNewTA()
 				}
 				else {
 					output << student_id << " ";
-					output.flush();
 
 				}
 				break;
@@ -126,8 +129,6 @@ void TA::addNewTA()
 				}
 				else {
 					output << status;
-					output.flush();
-
 					output << std::endl;
 				}
 				break;

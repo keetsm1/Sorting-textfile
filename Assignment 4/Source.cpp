@@ -67,53 +67,101 @@ int main()
 		std::cout << "File cant be opened";
 		return 1;
 	}
-	
-	while (std::getline(information, lines)) {
-		std::cout << lines << std::endl;
-	}
-	std::cout << "Original file has been modified with the sorted TAs!";
-
-	
-
-	std::cout << std::endl << std::endl;
+	std::cout << "Original file has been updated" << std::endl;
 	int option;
 	std::cout << "Options to proceed: ";
 	std::cout << "1. Enter New TA information, 2. Sort by Column  3. Exit" << std::endl;
 	std::cin >> option;
-	
-	TA ta;
-	
-		if (option == 1)
-		{
-			system("cls");
 
-			out << std::endl;
-			out << "New TAs Added: " << std::endl;
-			ta.addNewTA();
+	TA ta;
+
+	if (option == 1)
+	{
+		ta.addNewTA();
+		while (std::getline(information, lines)) {
+			std::cout << lines << std::endl;
 		}
-		else if(option==2)
-		{
-			
-		}
-		else if (option == 3) //when this is pressed, need to restart IDE for some reason to see output so i added this text at the bottom but then it prints 2x
-		{
+		
+	}
+	else if (option == 2)
+	{
+		int choice;
+		std::cout << "Choose a column to order by:" << std::endl;
+		std::cout << "1. Working Hours, 2. Department, 3. Student ID, 4. Status" << std::endl;
+		std::cin >> choice;
+
+		int orderChoice;
+		std::cout << "Choose the order: 1. Ascending, 2. Descending" << std::endl;
+		std::cin >> orderChoice;
+
+		if (choice ==1 || choice==2 || choice==3 || choice==4) {
+			if (orderChoice == 1) {
+				std::sort(t.begin(), t.end(), [choice](const TA& a, const TA& b) {
+					switch (choice) {
+					case 1: 
+						return a.getWorkingHours() < b.getWorkingHours();
+					case 2: 
+						return a.getDepartment() < b.getDepartment();
+					case 3:
+						return a.getStudentId() < b.getStudentId();
+					case 4: 
+						return a.getStatus() < b.getStatus();
+					default: 
+						return false; 
+					}
+					});
+			}
+			else if (orderChoice == 2) {
+				std::sort(t.begin(), t.end(), [choice](const TA& a, const TA& b) {
+					switch (choice) {
+					case 1:
+						return a.getWorkingHours() > b.getWorkingHours();
+					case 2:
+						return a.getDepartment() > b.getDepartment();
+					case 3: 
+						return a.getStudentId() > b.getStudentId();
+					case 4:
+						return a.getStatus() > b.getStatus();
+					default:
+						return false; 
+					}
+					});
+			}
+			else {
+				std::cout << "Invalid choice" << std::endl;
+				return 1;
+			}
+
+		
 			out << std::endl;
-			out << "Initial Student File After Correction:" << std::endl;
-			out << t.size() << std::endl; //new size
+			out << "Sorted Student File:" << std::endl;
+			out << t.size() << std::endl; // new size
 			for (int i = 0; i < t.size(); ++i) {
 				out << t[i].getWorkingHours() << " " << t[i].getDepartment() << " " << t[i].getStudentId() << " " << t[i].getStatus() << std::endl;
 
 			}
 
-			exit(0);
+			while (std::getline(information, lines)) {
+				std::cout << lines << std::endl;
+			}
 		}
 		else {
-			std::cout << "invalid input. closing system";
-			exit(0);
+			std::cout << "Invalid choice for column." << std::endl;
+			return 1;
 		}
 
-	information.close();
-	out.close();
+	}
+	else if (option == 3) 
+	{
+		return 0;
+
+	}
+	else {
+		std::cout << "invalid input. closing system";
+		exit(0);
+	}
+
+
 	return 0;
 }
 
